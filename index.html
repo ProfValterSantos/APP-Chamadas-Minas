@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Chamada</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Outfit', sans-serif; }
+    .font-display { font-family: 'Fraunces', serif; }
+    .grain {
+      background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0);
+      background-size: 20px 20px;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide { animation: slideIn 0.4s ease-out both; }
+    
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; margin: 0; padding: 0; }
+      .print-area { box-shadow: none !important; width: 100%; }
+      .max-w-6xl { max-width: 100% !important; padding: 0 !important; }
+      .grid { display: block !important; }
+      .bg-white { border: 1px solid #eee !important; margin-bottom: 20px; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body class="h-full grain" style="background: linear-gradient(135deg, #fef3e8 0%, #fde4cf 50%, #fbd5b5 100%);">
+  <main class="h-full w-full overflow-auto">
+    <div class="max-w-6xl mx-auto px-6 py-10">
+      <header class="mb-8 no-print">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, #ea580c, #c2410c);">
+            <i data-lucide="clipboard-check" class="text-white" style="width:22px;height:22px;"></i>
+          </div>
+          <span class="text-sm font-medium tracking-widest uppercase text-orange-900/70">Sistema de Presença</span>
+        </div>
+        <h1 class="font-display text-5xl md:text-6xl font-bold text-stone-900 leading-tight">Gerador de Chamada</h1>
+      </header>
+
+      <section class="no-print bg-white/70 backdrop-blur rounded-3xl p-6 md:p-8 shadow-xl border border-white mb-8">
+        <div class="grid md:grid-cols-2 gap-5 mb-6">
+          <div>
+            <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="users" class="inline mr-1" style="width:14px;height:14px;"></i> Turma</label>
+<select id="turma-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
+    <option value="1w">1º W Info</option> 
+    <option value="1tec">1º Tec Info</option> 
+    <option value="2w">2º W Info</option> 
+</select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="calendar" class="inline mr-1" style="width:14px;height:14px;"></i> Data</label>
+            <input id="data-input" type="date" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium focus:outline-none focus:border-orange-500 transition">
+          </div>
+        </div>
+
+        <div class="bg-white/50 rounded-2xl p-4 mb-6">
+          <label class="block text-sm font-semibold text-stone-700 mb-3"><i data-lucide="book-open" class="inline mr-1" style="width:14px;height:14px;"></i> Selecione as aulas</label>
+          <div class="grid grid-cols-5 gap-2">
+            <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-orange-50 cursor-pointer"><input type="checkbox" class="aula-check w-4 h-4 accent-orange-600" value="1" checked> <span class="text-sm font-medium">1ª</span></label>
+            <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-orange-50 cursor-pointer"><input type="checkbox" class="aula-check w-4 h-4 accent-orange-600" value="2" checked> <span class="text-sm font-medium">2ª</span></label>
+            <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-orange-50 cursor-pointer"><input type="checkbox" class="aula-check w-4 h-4 accent-orange-600" value="3" checked> <span class="text-sm font-medium">3ª</span></label>
+            <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-orange-50 cursor-pointer"><input type="checkbox" class="aula-check w-4 h-4 accent-orange-600" value="4" checked> <span class="text-sm font-medium">4ª</span></label>
+            <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-orange-50 cursor-pointer"><input type="checkbox" class="aula-check w-4 h-4 accent-orange-600" value="5" checked> <span class="text-sm font-medium">5ª</span></label>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button id="gerar-btn" class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white shadow-lg hover:scale-[1.02] transition" style="background: linear-gradient(135deg, #ea580c, #c2410c);"><i data-lucide="sparkles" style="width:18px;height:18px;"></i> Gerar</button>
+          <button id="marcar-todos" class="px-5 py-3 rounded-xl font-semibold bg-stone-100 hover:bg-stone-200 transition">Presença Total</button>
+          <button id="print-btn" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-stone-800 text-white hover:bg-black transition"><i data-lucide="printer" style="width:18px;height:18px;"></i> Imprimir</button>
+          <button id="export-json-btn" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition"><i data-lucide="file-json" style="width:18px;height:18px;"></i> JSON</button>
+          <button id="export-csv-btn" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-green-600 text-white hover:bg-green-700 transition"><i data-lucide="file-text" style="width:18px;height:18px;"></i> CSV</button>
+        </div>
+      </section>
+
+      <section id="output" class="print-area"></section>
+    </div>
+  </main>
+
+<script>
+// Base de dados (mantida a sua estrutura)
+const alunos = {
+  "1w": {
+    nome: "1º W Info",
+    alunos: [
+      {rm:"26221",nome:"ALFREDO HENRIQUE FERREIRA",grupo:"A"},
+      {rm:"26040",nome:"ANA GABRIELA RODRIGUES DO AMARAL LOOZE CARDOSO",grupo:"A"},
+      {rm:"26206",nome:"ANA LAURA LOPES FONTANINI DE LIMA",grupo:"A"},
+      {rm:"26372",nome:"ANA MARCELLY FREITAS CASTELLANO",grupo:"A"},
+      {rm:"26387",nome:"CAIO MIGUEL FOGAÇA DOS SANTOS",grupo:"A"},
+      {rm:"26038",nome:"DAVI KALKMANN PACHE",grupo:"A"},
+      {rm:"26324",nome:"EMANUELE AIMEE OLIVEIRA DE MORAES",grupo:"A"},
+      {rm:"26335",nome:"EMANUELLY SANTOS DE CAMARGO",grupo:"A"},
+      {rm:"26383",nome:"EVELIN SAMANTHA RODRIGUES DA SILVA",grupo:"A"},
+      {rm:"26055",nome:"FABIO CAINÃ DE MORAIS GALETTO",grupo:"A"},
+      {rm:"26319",nome:"GUSTAVO HENRIQUE SANTOS SATURNINO",grupo:"A"},
+      {rm:"26409",nome:"JOAQUIM CONCEIÇÃO SANTOS LIMA",grupo:"A"},
+      {rm:"26222",nome:"JUÃO HENRIQUE DE SOUZA MACHADO",grupo:"A"},
+      {rm:"26362",nome:"KAUAN GABRIEL AMARAL DE SOUZA",grupo:"A"},
+      {rm:"25396",nome:"KAUANE VITORIA DE CAMARGO PONTES",grupo:"A"},
+      {rm:"26001",nome:"KAWANNY BIANCA RODRIGUES DE ALMEIDA",grupo:"A"},
+      {rm:"26428",nome:"KAYCK SAMUEL TORRES KUPPER SANTOS",grupo:"A"},
+      {rm:"26150",nome:"LEANDRO CAMARGO DE ALMEIDA JUNIOR",grupo:"A"},
+      {rm:"26072",nome:"LUCAS PIETRO FARIA GOMES VIEITEZ",grupo:"B"},
+      {rm:"26315",nome:"MANUELA UBALDO SANTOS",grupo:"B"},
+      {rm:"26210",nome:"MARIA EDUARDA ARAUJO ALMEIDA DE ABREU",grupo:"B"},
+      {rm:"26306",nome:"MARIA ELIZA MORAIS DA SILVA",grupo:"B"},
+      {rm:"26087",nome:"MARIA GABRIELLY ALMEIDA SANTOS",grupo:"B"},
+      {rm:"26325",nome:"MARIA PAULA DOS SANTOS",grupo:"B"},
+      {rm:"26066",nome:"MATHEUS FELIPE MOREIRA DE LIMA",grupo:"B"},
+      {rm:"26045",nome:"MIGUEL CAMPOS GOMES",grupo:"B"},
+      {rm:"26316",nome:"NICOLAS RIQUELME DOS SANTOS COX",grupo:"B"},
+      {rm:"26021",nome:"NIELY PEREIRA VAZ",grupo:"B"},
+      {rm:"26165",nome:"OBAMA MANDELA ALVES NOGUEIRA",grupo:"B"},
+      {rm:"26033",nome:"PEDRO HENRIQUE GALVÃO DOS SANTOS",grupo:"B"},
+      {rm:"26339",nome:"PEDRO HENRIQUE OLIVEIRA SILVA",grupo:"B"},
+      {rm:"26052",nome:"RAUL ANTONY DE OLIVEIRA",grupo:"B"},
+      {rm:"26423",nome:"REINALDO APARECIDO FILADELFO BERNARDO NETO",grupo:"B"},
+      {rm:"26091",nome:"THAISSA DA SILVA FERREIRA",grupo:"B"},
+      {rm:"25508",nome:"VICTOR HENRY DE OLIVEIRA CHEFFER",grupo:"B"},
+      {rm:"26056",nome:"VITOR HUGO DA MATA RODRIGUES DOS SANTOS",grupo:"B"},
+      {rm:"26345",nome:"YASMIN VICTÓRIA MACEDO DE OLIVEIRA",grupo:"B"}
+    ]
+  },
+  "2w": {
+    nome: "2º W Info",
+    alunos: [
+      {rm:"25339",nome:"ANA LAURA LOPES PROENÇA",grupo:"A"},
+      {rm:"25418",nome:"ANA LIVIA GARCIA DE SOUZA",grupo:"A"},
+      {rm:"25072",nome:"ANABELLY DOS SANTOS SILVA",grupo:"A"},
+      {rm:"25291",nome:"ANTONIA GABRIELA WERNECK FRANCO",grupo:"A"},
+      {rm:"25255",nome:"ANTONY FABIANO BAPTISTA MACHADO",grupo:"A"},
+      {rm:"25424",nome:"CLEYTON DAS CHAGAS ALMEIDA",grupo:"A"},
+      {rm:"25127",nome:"EMILY VITORIA RODRIGUES DE LIMA",grupo:"A"},
+      {rm:"25075",nome:"FABIO VIEIRA SILVA",grupo:"A"},
+      {rm:"25136",nome:"FELIPE TOSHIO KOIZUMI",grupo:"A"},
+      {rm:"25095",nome:"FELLIPE ARAUJO DE CAMARGO OLIVEIRA",grupo:"A"},
+      {rm:"25222",nome:"GISELY CAMARGO JARDIM",grupo:"A"},
+      {rm:"25238",nome:"GUSTAVO CESAR DE JESUS SILVA",grupo:"A"},
+      {rm:"25411",nome:"ISABELLY TAMIRES LIMA DE ALMEIDA",grupo:"A"},
+      {rm:"25053",nome:"JOÃO CESAR ALMEIDA SANTOS",grupo:"A"},
+      {rm:"25189",nome:"JOÃO GABRIEL CURVINA UBALDO",grupo:"A"},
+      {rm:"25183",nome:"JOSÉ AUGUSTO PRIMO DOMINGUES",grupo:"A"},
+      {rm:"25287",nome:"JULIANO DIAS DE LIMA",grupo:"A"},
+      {rm:"25440",nome:"KAIQUE BRAYAN DE OLIVEIRA LIMA",grupo:"A"},
+      {rm:"25083",nome:"KAROLINE DOMINGUES DE ARAUJO SANTOS",grupo:"B"},
+      {rm:"25024",nome:"LUAN JESUS DE OLIVEIRA CHAGAS",grupo:"B"},
+      {rm:"25263",nome:"LUCAS GABRYEL SANTOS CIDRO",grupo:"B"},
+      {rm:"25138",nome:"MARIA EDUARDA SANTOS SILVA",grupo:"B"},
+      {rm:"25174",nome:"MATEUS CARDOSO",grupo:"B"},
+      {rm:"25334",nome:"MATHEUS GABRIEL DE OLIVEIRA",grupo:"B"},
+      {rm:"25037",nome:"NICOLAS JULIANO RODRIGUES JACÓB",grupo:"B"},
+      {rm:"25038",nome:"OTAVIO APARECIDO DA SILVA XAVIER",grupo:"B"},
+      {rm:"25395",nome:"PEDRO HENRIQUE DE ALMEIDA DAMIÃO",grupo:"B"},
+      {rm:"25435",nome:"RAFAEL BALOG DIAS MONTEIRO",grupo:"B"},
+      {rm:"25347",nome:"RAYCA SOPHIA RIBEIRO RAMOS",grupo:"B"},
+      {rm:"25429",nome:"RENAN ALMEIDA CASTILHO",grupo:"B"},
+      {rm:"25242",nome:"RUBENS ANTONIO MONEGATTO CAVALHEIRO",grupo:"B"},
+      {rm:"25103",nome:"RYAN MÜZEL OLIVEIRA",grupo:"B"},
+      {rm:"25182",nome:"SOFIA QUEIROZ GONÇALVES",grupo:"B"},
+      {rm:"25235",nome:"VICTOR GABRIEL RODRIGUES DO AMARAL",grupo:"B"},
+      {rm:"25057",nome:"YASMIN GABRIELLY DOS SANTOS ROCHA",grupo:"B"}
+    ]
+  },
+  "1tec": {
+    nome: "1º TEC Info",
+    alunos: [
+      {rm:"25532",nome:"ALANYS OLIVEIRA DE ABREU",grupo:"A"},
+      {rm:"26180",nome:"ALEX ZEQUE DA SILVA",grupo:"A"},
+      {rm:"26239",nome:"ANA BEATRIZ OLIVEIRA MACON",grupo:"A"},
+      {rm:"26139",nome:"ANA LAURA DE ALMEIDA PAES",grupo:"A"},
+      {rm:"18463",nome:"ANDERSON MACHADO DE MORAIS",grupo:"A"},
+      {rm:"26057",nome:"ANDRE LUIZ FERRARESI FARIA JUNIOR",grupo:"A"},
+      {rm:"20018",nome:"ANNE GABRIELE CAVALHEIRO DE OLIVEIRA",grupo:"A"},
+      {rm:"26273",nome:"BRENDOW ACKLEE FERNANDES FOGACA",grupo:"A"},
+      {rm:"26152",nome:"DIEGO HELD VASCONCELOS DE MEDEIROS",grupo:"A"},
+      {rm:"19259",nome:"DINIS FERREIRA DE LIMA NETO",grupo:"A"},
+      {rm:"26137",nome:"ELISEU RODRIGUES DA ROCHA FILHO",grupo:"A"},
+      {rm:"26184",nome:"GABRIEL MENDES LUIZ",grupo:"A"},
+      {rm:"26241",nome:"INGRID NAYARA MORAIS LEITE",grupo:"A"},
+      {rm:"26402",nome:"IRENE DE OLIVEIRA MELO ROCHA",grupo:"A"},
+      {rm:"26245",nome:"JOÃO VITOR RODRIGUES DE ALMEIDA",grupo:"A"},
+      {rm:"26190",nome:"JOSIANE BERGAMASCO OLIVEIRA DA COSTA",grupo:"A"},
+      {rm:"26253",nome:"JULIO CEZAR MACHADO DA COSTA",grupo:"A"},
+      {rm:"26243",nome:"JUSSARA OLIVEIRA CAMARGO",grupo:"A"},
+      {rm:"26445",nome:"REINALDO ADRIANO FORTES",grupo:"A"},
+      {rm:"24388",nome:"JULIA VITÓRIA MORAES SILVA",grupo:"B"},
+      {rm:"19024",nome:"KAIO DO COUTO SANTOS",grupo:"B"},
+      {rm:"26196",nome:"KAMILLA DE CAMARGO MENEGHEL",grupo:"B"},
+      {rm:"26346",nome:"KAUA DE ARAUJO PIRES",grupo:"B"},
+      {rm:"26173",nome:"KETHULYN SILENE DE FREITAS OIAN",grupo:"B"},
+      {rm:"19528",nome:"LETICIA FRANCINE DA SILVA RODRIGUES",grupo:"B"},
+      {rm:"26167",nome:"MARIA CLARA RODRIGUES TAVARES",grupo:"B"},
+      {rm:"23352",nome:"MICHAEL DE ALMEIDA CARVALHO SANTOS",grupo:"B"},
+      {rm:"26347",nome:"MIRELLA OLIVEIRA DA SILVA",grupo:"B"},
+      {rm:"22423",nome:"OLIVIO CESAR RODRIGUES LOURENÇO",grupo:"B"},
+      {rm:"26405",nome:"PEDRO HAMILTON FERREIRA DE ALMEIDA",grupo:"B"},
+      {rm:"26356",nome:"PEDRO HENRIQUE ALMEIDA URCIOLI DE BARROS",grupo:"B"},
+      {rm:"26123",nome:"RAFAEL OLIVEIRA PIRES",grupo:"B"},
+      {rm:"26454",nome:"RAISSA MELO ROCHA",grupo:"B"},
+      {rm:"26199",nome:"SAMUEL DINIZ DE ARAUJO",grupo:"B"},
+      {rm:"21761",nome:"SARAH CAROLINE LIMA DOS SANTOS",grupo:"B"},
+      {rm:"26351",nome:"TATIANE DE OLIVEIRA LIMA",grupo:"B"},
+      {rm:"26261",nome:"VINICIUS WERNEQUE PIRES",grupo:"B"}
+    ]
+  }
+};
+
+let presencas = {};
+
+function getKey(turma, data, aula, rm) { return `${turma}_${data}_${aula}_${rm}`; }
+
+function getAulasSelecionadas() {
+  return Array.from(document.querySelectorAll('.aula-check:checked')).map(cb => cb.value);
+}
+
+function gerarChamada() {
+  const turma = document.getElementById('turma-select').value;
+  const data = document.getElementById('data-input').value;
+  const aulas = getAulasSelecionadas();
+  const output = document.getElementById('output');
+
+  if (!data || aulas.length === 0) {
+    output.innerHTML = `<div class="p-4 bg-amber-50 text-amber-800 rounded-xl border border-amber-200">Selecione data e aulas.</div>`;
+    return;
+  }
+
+  const dadosTurma = alunos[turma];
+  let html = `<div class="bg-white rounded-3xl p-8 mb-6 shadow-sm border border-stone-100">
+                <h2 class="text-3xl font-bold font-display">${dadosTurma.nome}</h2>
+                <p class="text-stone-500">${data} | Aulas: ${aulas.join('ª, ')}ª</p>
+              </div>
+              <div class="grid gap-6">`;
+
+  ['A', 'B'].forEach(grupo => {
+    const lista = dadosTurma.alunos.filter(a => a.grupo === grupo);
+    if (lista.length === 0) return;
+
+    html += `<div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
+              <div class="px-6 py-4 bg-stone-50 border-b border-stone-100 font-bold">Grupo ${grupo}</div>
+              <table class="w-full text-sm">
+                <thead><tr class="text-left bg-stone-50/50">
+                  <th class="p-3">RM</th><th class="p-3">Nome</th>${aulas.map(a => `<th class="p-3 text-center">${a}ª</th>`).join('')}
+                </tr></thead>
+                <tbody>`;
+    
+    lista.forEach(al => {
+      html += `<tr class="border-t border-stone-50">
+                <td class="p-3 font-mono">${al.rm}</td>
+                <td class="p-3 font-medium">${al.nome}</td>
+                ${aulas.map(a => {
+                  const key = getKey(turma, data, a, al.rm);
+                  const isFalta = presencas[key] === 'ausente';
+                  return `<td class="p-2 text-center no-print">
+                            <button onclick="togglePresenca('${key}')" class="w-8 h-8 rounded ${isFalta ? 'bg-red-500 text-white' : 'bg-stone-100'}">F</button>
+                          </td>
+                          <td class="hidden print:table-cell p-2 text-center border font-mono">${isFalta ? 'F' : '.'}</td>`;
+                }).join('')}
+              </tr>`;
+    });
+    html += `</tbody></table></div>`;
+  });
+
+  output.innerHTML = html;
+  lucide.createIcons();
+}
+
+function togglePresenca(key) {
+  presencas[key] = presencas[key] === 'ausente' ? 'presente' : 'ausente';
+  gerarChamada();
+}
+
+// EXPORTAR CSV
+document.getElementById('export-csv-btn').onclick = () => {
+  const turma = document.getElementById('turma-select').value;
+  const data = document.getElementById('data-input').value;
+  const aulas = getAulasSelecionadas();
+  
+  let csv = "\uFEFF"; // Byte Order Mark para Excel reconhecer UTF-8
+  csv += `Chamada: ${alunos[turma].nome} - Data: ${data}\n\n`;
+  csv += `RM;Nome;Grupo;${aulas.map(a => `Aula ${a}`).join(';')};Total Faltas\n`;
+
+  alunos[turma].alunos.forEach(al => {
+    let faltas = 0;
+    const linhaAulas = aulas.map(a => {
+      if (presencas[getKey(turma, data, a, al.rm)] === 'ausente') {
+        faltas++; return "F";
+      }
+      return "P";
+    }).join(';');
+    csv += `${al.rm};"${al.nome}";${al.grupo};${linhaAulas};${faltas}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `chamada_${turma}_${data}.csv`;
+  a.click();
+};
+
+// EXPORTAR JSON
+document.getElementById('export-json-btn').onclick = () => {
+  const turma = document.getElementById('turma-select').value;
+  const data = document.getElementById('data-input').value;
+  const aulas = getAulasSelecionadas();
+  
+  const relatorio = {
+    turma: alunos[turma].nome,
+    data: data,
+    alunos: alunos[turma].alunos.map(al => ({
+      rm: al.rm,
+      nome: al.nome,
+      presencas: aulas.map(a => ({ aula: a, status: presencas[getKey(turma, data, a, al.rm)] || 'presente' }))
+    }))
+  };
+
+  const blob = new Blob([JSON.stringify(relatorio, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `chamada_${turma}_${data}.json`;
+  a.click();
+};
+
+// IMPRIMIR
+document.getElementById('print-btn').onclick = () => window.print();
+
+// MARCAR TODOS
+document.getElementById('marcar-todos').onclick = () => {
+  presencas = {}; // Limpa as faltas
+  gerarChamada();
+};
+
+// Inicialização
+document.getElementById('gerar-btn').onclick = gerarChamada;
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('data-input').valueAsDate = new Date();
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>
