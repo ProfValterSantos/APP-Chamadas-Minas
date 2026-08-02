@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerador de Chamada</title>
+  <title>Gerador de Chamada Por Grupo</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Outfit', sans-serif; }
     .font-display { font-family: 'Fraunces', serif; }
@@ -44,14 +44,21 @@
       </header>
 
       <section class="no-print bg-white/70 backdrop-blur rounded-3xl p-6 md:p-8 shadow-xl border border-white mb-8">
-        <div class="grid md:grid-cols-2 gap-5 mb-6">
+        <div class="grid md:grid-cols-3 gap-5 mb-6">
           <div>
             <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="users" class="inline mr-1" style="width:14px;height:14px;"></i> Turma</label>
-<select id="turma-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
-    <option value="1w">1º W Info</option> 
-    <option value="1tec">1º Tec Info</option> 
-    <option value="2w">2º W Info</option> 
-</select>
+            <select id="turma-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
+                <option value="1w">1º W Info</option> 
+                <option value="1tec">1º Tec Info</option> 
+                <option value="2w">2º W Info</option> 
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="user-check" class="inline mr-1" style="width:14px;height:14px;"></i> Grupo</label>
+            <select id="grupo-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
+                <option value="A">Grupo A</option> 
+                <option value="B">Grupo B</option> 
+            </select>
           </div>
           <div>
             <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="calendar" class="inline mr-1" style="width:14px;height:14px;"></i> Data</label>
@@ -84,7 +91,7 @@
   </main>
 
 <script>
-// Base de dados (mantida a sua estrutura)
+// Base de dados
 const alunos = {
   "1w": {
     nome: "1º W Info",
@@ -220,52 +227,77 @@ function getAulasSelecionadas() {
   return Array.from(document.querySelectorAll('.aula-check:checked')).map(cb => cb.value);
 }
 
+function geratNomeArquivo(extensao) {
+  const turma = document.getElementById('turma-select').value;
+  const grupo = document.getElementById('grupo-select').value;
+  const dataVal = document.getElementById('data-input').value; // YYYY-MM-DD
+  const aulas = getAulasSelecionadas();
+
+  // Formatar aulas: 1ª_3ª_4ªaula
+  const strAulas = aulas.map(a => `${a}ª`).join('_') + 'aula';
+
+  // Formatar data: DD-MM-YYYY
+  let dataFormatada = "";
+  if (dataVal) {
+    const partes = dataVal.split('-');
+    if (partes.length === 3) {
+      dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
+    }
+  }
+
+  return `${strAulas}-${turma}-${grupo}_${dataFormatada}.${extensao}`;
+}
+
 function gerarChamada() {
   const turma = document.getElementById('turma-select').value;
+  const grupoSelecionado = document.getElementById('grupo-select').value;
   const data = document.getElementById('data-input').value;
   const aulas = getAulasSelecionadas();
   const output = document.getElementById('output');
 
   if (!data || aulas.length === 0) {
-    output.innerHTML = `<div class="p-4 bg-amber-50 text-amber-800 rounded-xl border border-amber-200">Selecione data e aulas.</div>`;
+    output.innerHTML = `<div class="p-4 bg-amber-50 text-amber-800 rounded-xl border border-amber-200">Selecione data e pelo menos uma aula.</div>`;
     return;
   }
 
   const dadosTurma = alunos[turma];
+  const listaAlunos = dadosTurma.alunos.filter(a => a.grupo === grupoSelecionado);
+
   let html = `<div class="bg-white rounded-3xl p-8 mb-6 shadow-sm border border-stone-100">
-                <h2 class="text-3xl font-bold font-display">${dadosTurma.nome}</h2>
+                <h2 class="text-3xl font-bold font-display">${dadosTurma.nome} - Grupo ${grupoSelecionado}</h2>
                 <p class="text-stone-500">${data} | Aulas: ${aulas.join('ª, ')}ª</p>
               </div>
               <div class="grid gap-6">`;
 
-  ['A', 'B'].forEach(grupo => {
-    const lista = dadosTurma.alunos.filter(a => a.grupo === grupo);
-    if (lista.length === 0) return;
+  if (listaAlunos.length === 0) {
+    html += `<div class="p-6 bg-white rounded-2xl border border-stone-100 text-stone-500">Nenhum aluno encontrado para este grupo.</div></div>`;
+    output.innerHTML = html;
+    return;
+  }
 
-    html += `<div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
-              <div class="px-6 py-4 bg-stone-50 border-b border-stone-100 font-bold">Grupo ${grupo}</div>
-              <table class="w-full text-sm">
-                <thead><tr class="text-left bg-stone-50/50">
-                  <th class="p-3">RM</th><th class="p-3">Nome</th>${aulas.map(a => `<th class="p-3 text-center">${a}ª</th>`).join('')}
-                </tr></thead>
-                <tbody>`;
-    
-    lista.forEach(al => {
-      html += `<tr class="border-t border-stone-50">
-                <td class="p-3 font-mono">${al.rm}</td>
-                <td class="p-3 font-medium">${al.nome}</td>
-                ${aulas.map(a => {
-                  const key = getKey(turma, data, a, al.rm);
-                  const isFalta = presencas[key] === 'ausente';
-                  return `<td class="p-2 text-center no-print">
-                            <button onclick="togglePresenca('${key}')" class="w-8 h-8 rounded ${isFalta ? 'bg-red-500 text-white' : 'bg-stone-100'}">F</button>
-                          </td>
-                          <td class="hidden print:table-cell p-2 text-center border font-mono">${isFalta ? 'F' : '.'}</td>`;
-                }).join('')}
-              </tr>`;
-    });
-    html += `</tbody></table></div>`;
+  html += `<div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
+            <div class="px-6 py-4 bg-stone-50 border-b border-stone-100 font-bold">Grupo ${grupoSelecionado}</div>
+            <table class="w-full text-sm">
+              <thead><tr class="text-left bg-stone-50/50">
+                <th class="p-3">RM</th><th class="p-3">Nome</th>${aulas.map(a => `<th class="p-3 text-center">${a}ª</th>`).join('')}
+              </tr></thead>
+              <tbody>`;
+  
+  listaAlunos.forEach(al => {
+    html += `<tr class="border-t border-stone-50">
+              <td class="p-3 font-mono">${al.rm}</td>
+              <td class="p-3 font-medium">${al.nome}</td>
+              ${aulas.map(a => {
+                const key = getKey(turma, data, a, al.rm);
+                const isFalta = presencas[key] === 'ausente';
+                return `<td class="p-2 text-center no-print">
+                          <button onclick="togglePresenca('${key}')" class="w-8 h-8 rounded transition font-semibold ${isFalta ? 'bg-red-500 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}">${isFalta ? 'F' : 'P'}</button>
+                        </td>
+                        <td class="hidden print:table-cell p-2 text-center border font-mono">${isFalta ? 'F' : '.'}</td>`;
+              }).join('')}
+            </tr>`;
   });
+  html += `</tbody></table></div></div>`;
 
   output.innerHTML = html;
   lucide.createIcons();
@@ -279,14 +311,25 @@ function togglePresenca(key) {
 // EXPORTAR CSV
 document.getElementById('export-csv-btn').onclick = () => {
   const turma = document.getElementById('turma-select').value;
+  const grupo = document.getElementById('grupo-select').value;
   const data = document.getElementById('data-input').value;
   const aulas = getAulasSelecionadas();
   
-  let csv = "\uFEFF"; // Byte Order Mark para Excel reconhecer UTF-8
-  csv += `Chamada: ${alunos[turma].nome} - Data: ${data}\n\n`;
-  csv += `RM;Nome;Grupo;${aulas.map(a => `Aula ${a}`).join(';')};Total Faltas\n`;
+  if (!data || aulas.length === 0) {
+    alert("Por favor, selecione a data e as aulas antes de exportar.");
+    return;
+  }
 
-  alunos[turma].alunos.forEach(al => {
+  const listaAlunos = alunos[turma].alunos.filter(a => a.grupo === grupo);
+
+  let csv = "﻿"; // BOM UTF-8
+  csv += `Chamada: ${alunos[turma].nome} - Grupo ${grupo} - Data: ${data}
+
+`;
+  csv += `RM;Nome;Grupo;${aulas.map(a => `Aula ${a}`).join(';')};Total Faltas
+`;
+
+  listaAlunos.forEach(al => {
     let faltas = 0;
     const linhaAulas = aulas.map(a => {
       if (presencas[getKey(turma, data, a, al.rm)] === 'ausente') {
@@ -294,29 +337,40 @@ document.getElementById('export-csv-btn').onclick = () => {
       }
       return "P";
     }).join(';');
-    csv += `${al.rm};"${al.nome}";${al.grupo};${linhaAulas};${faltas}\n`;
+    csv += `${al.rm};"${al.nome}";${al.grupo};${linhaAulas};${faltas}
+`;
   });
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `chamada_${turma}_${data}.csv`;
+  a.download = geratNomeArquivo('csv');
   a.click();
 };
 
 // EXPORTAR JSON
 document.getElementById('export-json-btn').onclick = () => {
   const turma = document.getElementById('turma-select').value;
+  const grupo = document.getElementById('grupo-select').value;
   const data = document.getElementById('data-input').value;
   const aulas = getAulasSelecionadas();
+
+  if (!data || aulas.length === 0) {
+    alert("Por favor, selecione a data e as aulas antes de exportar.");
+    return;
+  }
   
+  const listaAlunos = alunos[turma].alunos.filter(a => a.grupo === grupo);
+
   const relatorio = {
     turma: alunos[turma].nome,
+    grupo: grupo,
     data: data,
-    alunos: alunos[turma].alunos.map(al => ({
+    alunos: listaAlunos.map(al => ({
       rm: al.rm,
       nome: al.nome,
+      grupo: al.grupo,
       presencas: aulas.map(a => ({ aula: a, status: presencas[getKey(turma, data, a, al.rm)] || 'presente' }))
     }))
   };
@@ -325,23 +379,25 @@ document.getElementById('export-json-btn').onclick = () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `chamada_${turma}_${data}.json`;
+  a.download = geratNomeArquivo('json');
   a.click();
 };
 
 // IMPRIMIR
 document.getElementById('print-btn').onclick = () => window.print();
 
-// MARCAR TODOS
+// MARCAR TODOS COMO PRESENTE
 document.getElementById('marcar-todos').onclick = () => {
-  presencas = {}; // Limpa as faltas
+  presencas = {};
   gerarChamada();
 };
 
 // Inicialização
 document.getElementById('gerar-btn').onclick = gerarChamada;
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('data-input').valueAsDate = new Date();
+  // Define data de hoje no input se vazio
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('data-input').value = today;
   lucide.createIcons();
 });
 </script>
