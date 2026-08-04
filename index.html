@@ -49,7 +49,7 @@
             <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="users" class="inline mr-1" style="width:14px;height:14px;"></i> Turma</label>
             <select id="turma-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
                 <option value="1w">1º W Info</option> 
-                <option value="1tec">1º Tec Info</option> 
+                <option value="1xrh">1º X RH</option> 
                 <option value="2w">2º W Info</option> 
             </select>
           </div>
@@ -175,46 +175,29 @@ const alunos = {
       {rm:"25057",nome:"YASMIN GABRIELLY DOS SANTOS ROCHA",grupo:"B"}
     ]
   },
-  "1tec": {
-    nome: "1º TEC Info",
+  "1xrh": {
+    nome: "1º X RH",
     alunos: [
-      {rm:"25532",nome:"ALANYS OLIVEIRA DE ABREU",grupo:"A"},
-      {rm:"26180",nome:"ALEX ZEQUE DA SILVA",grupo:"A"},
-      {rm:"26239",nome:"ANA BEATRIZ OLIVEIRA MACON",grupo:"A"},
-      {rm:"26139",nome:"ANA LAURA DE ALMEIDA PAES",grupo:"A"},
-      {rm:"18463",nome:"ANDERSON MACHADO DE MORAIS",grupo:"A"},
-      {rm:"26057",nome:"ANDRE LUIZ FERRARESI FARIA JUNIOR",grupo:"A"},
-      {rm:"20018",nome:"ANNE GABRIELE CAVALHEIRO DE OLIVEIRA",grupo:"A"},
-      {rm:"26273",nome:"BRENDOW ACKLEE FERNANDES FOGACA",grupo:"A"},
-      {rm:"26152",nome:"DIEGO HELD VASCONCELOS DE MEDEIROS",grupo:"A"},
-      {rm:"19259",nome:"DINIS FERREIRA DE LIMA NETO",grupo:"A"},
-      {rm:"26137",nome:"ELISEU RODRIGUES DA ROCHA FILHO",grupo:"A"},
-      {rm:"26184",nome:"GABRIEL MENDES LUIZ",grupo:"A"},
-      {rm:"26241",nome:"INGRID NAYARA MORAIS LEITE",grupo:"A"},
-      {rm:"26402",nome:"IRENE DE OLIVEIRA MELO ROCHA",grupo:"A"},
-      {rm:"26245",nome:"JOÃO VITOR RODRIGUES DE ALMEIDA",grupo:"A"},
-      {rm:"26190",nome:"JOSIANE BERGAMASCO OLIVEIRA DA COSTA",grupo:"A"},
-      {rm:"26253",nome:"JULIO CEZAR MACHADO DA COSTA",grupo:"A"},
-      {rm:"26243",nome:"JUSSARA OLIVEIRA CAMARGO",grupo:"A"},
-      {rm:"26445",nome:"REINALDO ADRIANO FORTES",grupo:"A"},
-      {rm:"24388",nome:"JULIA VITÓRIA MORAES SILVA",grupo:"B"},
-      {rm:"19024",nome:"KAIO DO COUTO SANTOS",grupo:"B"},
-      {rm:"26196",nome:"KAMILLA DE CAMARGO MENEGHEL",grupo:"B"},
-      {rm:"26346",nome:"KAUA DE ARAUJO PIRES",grupo:"B"},
-      {rm:"26173",nome:"KETHULYN SILENE DE FREITAS OIAN",grupo:"B"},
-      {rm:"19528",nome:"LETICIA FRANCINE DA SILVA RODRIGUES",grupo:"B"},
-      {rm:"26167",nome:"MARIA CLARA RODRIGUES TAVARES",grupo:"B"},
-      {rm:"23352",nome:"MICHAEL DE ALMEIDA CARVALHO SANTOS",grupo:"B"},
-      {rm:"26347",nome:"MIRELLA OLIVEIRA DA SILVA",grupo:"B"},
-      {rm:"22423",nome:"OLIVIO CESAR RODRIGUES LOURENÇO",grupo:"B"},
-      {rm:"26405",nome:"PEDRO HAMILTON FERREIRA DE ALMEIDA",grupo:"B"},
-      {rm:"26356",nome:"PEDRO HENRIQUE ALMEIDA URCIOLI DE BARROS",grupo:"B"},
-      {rm:"26123",nome:"RAFAEL OLIVEIRA PIRES",grupo:"B"},
-      {rm:"26454",nome:"RAISSA MELO ROCHA",grupo:"B"},
-      {rm:"26199",nome:"SAMUEL DINIZ DE ARAUJO",grupo:"B"},
-      {rm:"21761",nome:"SARAH CAROLINE LIMA DOS SANTOS",grupo:"B"},
-      {rm:"26351",nome:"TATIANE DE OLIVEIRA LIMA",grupo:"B"},
-      {rm:"26261",nome:"VINICIUS WERNEQUE PIRES",grupo:"B"}
+      {rm:"26265",nome:"ADALBERTO CARDOSO NETTO",grupo:"B"},
+      {rm:"26343",nome:"ALANYS CRISTINA CORDEIRO DE SOUZA",grupo:"B"},
+      {rm:"26097",nome:"ANA ALICE ALVES DE CAMARGO",grupo:"B"},
+      {rm:"26375",nome:"ANA LIVIA DE OLIVEIRA LIMA",grupo:"B"},
+      {rm:"26238",nome:"ANTHONELLY SOPHIE DE MORAIS SANTOS",grupo:"B"},
+      {rm:"26283",nome:"ANTONIO CARMINO MOREIRA SANTOS",grupo:"B"},
+      {rm:"26341",nome:"AYSLA KRISTEN SANTOS DOMINGUES",grupo:"B"},
+      {rm:"26331",nome:"DANILO PRESTES DE MORAES SIQUEIRA",grupo:"B"},
+      {rm:"26385",nome:"EDUARDO MORAIS DE CAMARGO",grupo:"B"},
+      {rm:"26099",nome:"ELIANA VITÓRIA VIEIRA CUSTODIO",grupo:"B"},
+      {rm:"26334",nome:"GABRIELA APARECIDA DE ALMEIDA SILVA",grupo:"B"},
+      {rm:"26392",nome:"GUILHERME DE MELO NOGUEIRA",grupo:"B"},
+      {rm:"26358",nome:"HADASSA ESTHER DE ALMEIDA",grupo:"B"},
+      {rm:"26415",nome:"HELENA VITÓRIA DE OLIVEIRA LIMA ALMEIDA",grupo:"B"},
+      {rm:"26384",nome:"ISABELE VITORIA VIEIRA MARQUES",grupo:"B"},
+      {rm:"26109",nome:"JAMILY VASCONCELOS BARROS CRUZ",grupo:"B"},
+      {rm:"26140",nome:"JOÃO OTAVIO VERNEQUE EUGENIO",grupo:"B"},
+      {rm:"26024",nome:"JOVANA RODRIGUES DOS SANTOS",grupo:"B"},
+      {rm:"26282",nome:"LAIS FERNANDA VIEIRA PINTO",grupo:"B"},
+      {rm:"26160",nome:"LAVINIA VIANA FERREIRA",grupo:"B"}
     ]
   }
 };
@@ -395,7 +378,6 @@ document.getElementById('marcar-todos').onclick = () => {
 // Inicialização
 document.getElementById('gerar-btn').onclick = gerarChamada;
 document.addEventListener('DOMContentLoaded', () => {
-  // Define data de hoje no input se vazio
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('data-input').value = today;
   lucide.createIcons();
