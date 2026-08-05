@@ -79,7 +79,8 @@
 
         <div class="flex flex-wrap gap-3">
           <button id="gerar-btn" class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white shadow-lg hover:scale-[1.02] transition" style="background: linear-gradient(135deg, #ea580c, #c2410c);"><i data-lucide="sparkles" style="width:18px;height:18px;"></i> Gerar</button>
-          <button id="marcar-todos" class="px-5 py-3 rounded-xl font-semibold bg-stone-100 hover:bg-stone-200 transition">Presença Total</button>
+          <button id="marcar-todos" class="px-5 py-3 rounded-xl font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition">Presença Total</button>
+          <button id="marcar-faltas-todas" class="px-5 py-3 rounded-xl font-semibold bg-red-600 hover:bg-red-700 text-white transition">Falta Total</button>
           <button id="print-btn" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-stone-800 text-white hover:bg-black transition"><i data-lucide="printer" style="width:18px;height:18px;"></i> Imprimir</button>
           <button id="export-json-btn" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition"><i data-lucide="file-json" style="width:18px;height:18px;"></i> JSON</button>
           <button id="export-csv-btn" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-green-600 text-white hover:bg-green-700 transition"><i data-lucide="file-text" style="width:18px;height:18px;"></i> CSV</button>
@@ -372,6 +373,29 @@ document.getElementById('print-btn').onclick = () => window.print();
 // MARCAR TODOS COMO PRESENTE
 document.getElementById('marcar-todos').onclick = () => {
   presencas = {};
+  gerarChamada();
+};
+
+// MARCAR TODOS COMO FALTA
+document.getElementById('marcar-faltas-todas').onclick = () => {
+  const turma = document.getElementById('turma-select').value;
+  const grupo = document.getElementById('grupo-select').value;
+  const data = document.getElementById('data-input').value;
+  const aulas = getAulasSelecionadas();
+
+  if (!data || aulas.length === 0) {
+    alert("Por favor, selecione a data e as aulas primeiro.");
+    return;
+  }
+
+  const listaAlunos = alunos[turma].alunos.filter(a => a.grupo === grupo);
+  listaAlunos.forEach(al => {
+    aulas.forEach(a => {
+      const key = getKey(turma, data, a, al.rm);
+      presencas[key] = 'ausente';
+    });
+  });
+
   gerarChamada();
 };
 
