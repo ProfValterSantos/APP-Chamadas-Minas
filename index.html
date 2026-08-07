@@ -14,12 +14,6 @@
       background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0);
       background-size: 20px 20px;
     }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-slide { animation: slideIn 0.4s ease-out both; }
-    
     @media print {
       .no-print { display: none !important; }
       body { background: white !important; margin: 0; padding: 0; }
@@ -48,6 +42,7 @@
           <div>
             <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="users" class="inline mr-1" style="width:14px;height:14px;"></i> Turma</label>
             <select id="turma-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
+                <option value="1enf">1º ENF</option>
                 <option value="1w">1º W Info</option> 
                 <option value="1xrh">1º X RH</option> 
                 <option value="2w">2º W Info</option> 
@@ -92,8 +87,52 @@
   </main>
 
 <script>
-// Base de dados
 const alunos = {
+  "1enf": {
+    nome: "1º ENF (Enfermagem)",
+    alunos: [
+      {rm:"26483",nome:"ADNA GEZER DE LIMA FREITAS OIAN",grupo:"A"},
+      {rm:"23300",nome:"ANA BEATRIZ RODRIGUES DE OLIVEIRA",grupo:"B"},
+      {rm:"22001",nome:"ANA CAROLINA DE MORAES OLIVEIRA",grupo:"A"},
+      {rm:"19582",nome:"ANA CLARA RIBEIRO DE MORAES OLIVEIRA",grupo:"A"},
+      {rm:"26538",nome:"BRUNA CAROLINA DE SOUZA PONTES",grupo:"A"},
+      {rm:"26524",nome:"BRUNO LEPINSK TEIXEIRA",grupo:"A"},
+      {rm:"26544",nome:"CINTIA BORGES TORTELI",grupo:"A"},
+      {rm:"23498",nome:"CRISTINE VITORIA MORAIS MARTINS",grupo:"A"},
+      {rm:"26564",nome:"DIANA CONSUELO LOBO DE FREITAS",grupo:"A"},
+      {rm:"26465",nome:"ESTEFANY VITORIA SILVA OLIVEIRA",grupo:"A"},
+      {rm:"19264",nome:"EVELYN DA SILVA OLIVEIRA",grupo:"A"},
+      {rm:"19643",nome:"FRANCIELE DA SILVA SANTOS",grupo:"A"},
+      {rm:"13181",nome:"GABRIEL GIL DA SILVA",grupo:"A"},
+      {rm:"22560",nome:"GRACIELE FERREIRA DE OLIVEIRA CAMARGO",grupo:"A"},
+      {rm:"25572",nome:"GUILHERME NEVES COSTA LEMOS",grupo:"A"},
+      {rm:"24488",nome:"HELOISA XAVIER EUGENIO",grupo:"A"},
+      {rm:"22060",nome:"HELORRAINE DOS SANTOS BENEDITO",grupo:"A"},
+      {rm:"26472",nome:"IZADORA RIBEIRO DOS SANTOS",grupo:"A"},
+      {rm:"26565",nome:"JULIANA ALMEIDA DO PRADO",grupo:"B"},
+      {rm:"26519",nome:"KARINE DOS SANTOS SILVA",grupo:"A"},
+      {rm:"26556",nome:"KAROLAYNE MATOS CARVALHO DOS SANTOS",grupo:"A"},
+      {rm:"26559",nome:"KEYLA APARECIDA GOMES",grupo:"A"},
+      {rm:"23343",nome:"LARISSA CONCEIÇÃO FERREIRA",grupo:"B"},
+      {rm:"22348",nome:"LEANDRA GOMES DA SILVA",grupo:"B"},
+      {rm:"26561",nome:"LIDRIANE OLIVEIRA CRUZ",grupo:"B"},
+      {rm:"26530",nome:"LUANA LUNA DE PAULA SOUZA",grupo:"B"},
+      {rm:"26520",nome:"LUANA MEDEIROS FERREIRA",grupo:"B"},
+      {rm:"26477",nome:"LUANA OLIVEIRA SILVA CAMARGO",grupo:"B"},
+      {rm:"26562",nome:"MAIULE VITORIA PEREIRA LARA",grupo:"B"},
+      {rm:"26480",nome:"MARIA SABRINA DA SILVA",grupo:"B"},
+      {rm:"26506",nome:"MELISSA CONCEICAO FERREIRA",grupo:"B"},
+      {rm:"19256",nome:"RAFAELE RODRIGUES RIBEIRO DA SILVA",grupo:"B"},
+      {rm:"26513",nome:"RAQUEL DE FATIMA MOREIRA",grupo:"B"},
+      {rm:"23176",nome:"REBECA FERNANDA SOARES DE MATOS",grupo:"B"},
+      {rm:"22094",nome:"SABRINA LOPES CARABAGIN",grupo:"B"},
+      {rm:"26540",nome:"TATIANE CRISTINA PEREIRA",grupo:"B"},
+      {rm:"26549",nome:"TOBIAS VITOR DA SILVA",grupo:"B"},
+      {rm:"26545",nome:"VALDIRENE RODRIGUES DE ALMEIDA PEREIRA",grupo:"B"},
+      {rm:"26473",nome:"VICTORIA MOURA SOUZA PEREIRA",grupo:"B"},
+      {rm:"22110",nome:"VYCTORIA RAFAELI SILVA FREITAS",grupo:"B"}
+    ]
+  },
   "1w": {
     nome: "1º W Info",
     alunos: [
@@ -214,13 +253,11 @@ function getAulasSelecionadas() {
 function geratNomeArquivo(extensao) {
   const turma = document.getElementById('turma-select').value;
   const grupo = document.getElementById('grupo-select').value;
-  const dataVal = document.getElementById('data-input').value; // YYYY-MM-DD
+  const dataVal = document.getElementById('data-input').value;
   const aulas = getAulasSelecionadas();
 
-  // Formatar aulas: 1ª_3ª_4ªaula
   const strAulas = aulas.map(a => `${a}ª`).join('_') + 'aula';
 
-  // Formatar data: DD-MM-YYYY
   let dataFormatada = "";
   if (dataVal) {
     const partes = dataVal.split('-');
@@ -240,7 +277,7 @@ function gerarChamada() {
   const output = document.getElementById('output');
 
   if (!data || aulas.length === 0) {
-    output.innerHTML = `<div class="p-4 bg-amber-50 text-amber-800 rounded-xl border border-amber-200">Selecione data e pelo menos uma aula.</div>`;
+    output.innerHTML = `<div class="p-4 bg-amber-50 text-amber-800 rounded-xl border border-amber-200">Selecione uma data e pelo menos uma aula.</div>`;
     return;
   }
 
@@ -254,7 +291,7 @@ function gerarChamada() {
               <div class="grid gap-6">`;
 
   if (listaAlunos.length === 0) {
-    html += `<div class="p-6 bg-white rounded-2xl border border-stone-100 text-stone-500">Nenhum aluno encontrado para este grupo.</div></div>`;
+    html += `<div class="p-6 bg-white rounded-2xl border border-stone-100 text-stone-500">Nenhum aluno encontrado para este grupo nesta turma.</div></div>`;
     output.innerHTML = html;
     return;
   }
@@ -292,13 +329,12 @@ function togglePresenca(key) {
   gerarChamada();
 }
 
-// EXPORTAR CSV
 document.getElementById('export-csv-btn').onclick = () => {
   const turma = document.getElementById('turma-select').value;
   const grupo = document.getElementById('grupo-select').value;
   const data = document.getElementById('data-input').value;
   const aulas = getAulasSelecionadas();
-  
+
   if (!data || aulas.length === 0) {
     alert("Por favor, selecione a data e as aulas antes de exportar.");
     return;
@@ -306,12 +342,9 @@ document.getElementById('export-csv-btn').onclick = () => {
 
   const listaAlunos = alunos[turma].alunos.filter(a => a.grupo === grupo);
 
-  let csv = "﻿"; // BOM UTF-8
-  csv += `Chamada: ${alunos[turma].nome} - Grupo ${grupo} - Data: ${data}
-
-`;
-  csv += `RM;Nome;Grupo;${aulas.map(a => `Aula ${a}`).join(';')};Total Faltas
-`;
+  let csv = "\uFEFF";
+  csv += `Chamada: ${alunos[turma].nome} - Grupo ${grupo} - Data: ${data}\n\n`;
+  csv += `RM;Nome;Grupo;${aulas.map(a => `Aula ${a}`).join(';')};Total Faltas\n`;
 
   listaAlunos.forEach(al => {
     let faltas = 0;
@@ -321,8 +354,7 @@ document.getElementById('export-csv-btn').onclick = () => {
       }
       return "P";
     }).join(';');
-    csv += `${al.rm};"${al.nome}";${al.grupo};${linhaAulas};${faltas}
-`;
+    csv += `${al.rm};"${al.nome}";${al.grupo};${linhaAulas};${faltas}\n`;
   });
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -333,7 +365,6 @@ document.getElementById('export-csv-btn').onclick = () => {
   a.click();
 };
 
-// EXPORTAR JSON
 document.getElementById('export-json-btn').onclick = () => {
   const turma = document.getElementById('turma-select').value;
   const grupo = document.getElementById('grupo-select').value;
@@ -367,16 +398,13 @@ document.getElementById('export-json-btn').onclick = () => {
   a.click();
 };
 
-// IMPRIMIR
 document.getElementById('print-btn').onclick = () => window.print();
 
-// MARCAR TODOS COMO PRESENTE
 document.getElementById('marcar-todos').onclick = () => {
   presencas = {};
   gerarChamada();
 };
 
-// MARCAR TODOS COMO FALTA
 document.getElementById('marcar-faltas-todas').onclick = () => {
   const turma = document.getElementById('turma-select').value;
   const grupo = document.getElementById('grupo-select').value;
@@ -399,12 +427,13 @@ document.getElementById('marcar-faltas-todas').onclick = () => {
   gerarChamada();
 };
 
-// Inicialização
 document.getElementById('gerar-btn').onclick = gerarChamada;
+
+// Inicialização com auto-geração imediata
 document.addEventListener('DOMContentLoaded', () => {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('data-input').value = today;
-  lucide.createIcons();
+  gerarChamada();
 });
 </script>
 </body>
