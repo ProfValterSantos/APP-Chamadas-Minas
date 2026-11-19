@@ -1,3 +1,6 @@
+Aqui está o código atualizado com o RM de **KEMILLEY VITORIA RODRIGUES BERLATO** alterado para `23281`:
+
+```html
 <!doctype html>
 <html lang="pt-BR" class="h-full">
 <head>
@@ -45,10 +48,12 @@
           <div>
             <label class="block text-sm font-semibold text-stone-700 mb-2"><i data-lucide="users" class="inline mr-1" style="width:14px;height:14px;"></i> Turma</label>
             <select id="turma-select" class="w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white font-medium text-stone-800 focus:outline-none focus:border-orange-500 transition"> 
-                <option value="1enf">1º ENF</option>
+                <option value="1enf">1º S ENF</option>
                 <option value="1w">1º W Info</option> 
                 <option value="1xrh">1º X RH</option> 
-                <option value="2w">2º W Info</option> 
+                <option value="2w">2º W Info</option>
+                <option value="2qmin">2º Q Min</option>
+                <option value="3senf">3º S ENF</option>
             </select>
           </div>
           <div>
@@ -93,7 +98,7 @@
 <script>
 const alunos = {
   "1enf": {
-    nome: "1º ENF (Enfermagem)",
+    nome: "1º S ENF (Enfermagem)",
     alunos: [
       {rm:"26483",nome:"ADNA GEZER DE LIMA FREITAS OIAN",grupo:"A"},
       {rm:"23300",nome:"ANA BEATRIZ RODRIGUES DE OLIVEIRA",grupo:"B"},
@@ -239,6 +244,71 @@ const alunos = {
       {rm:"26024",nome:"JOVANA RODRIGUES DOS SANTOS",grupo:"B"},
       {rm:"26282",nome:"LAIS FERNANDA VIEIRA PINTO",grupo:"B"},
       {rm:"26160",nome:"LAVINIA VIANA FERREIRA",grupo:"B"}
+    ]
+  },
+  "2qmin": {
+    nome: "2º Q Min",
+    alunos: [
+      {rm:"25352",nome:"ANA BEATRIZ DA SILVA ROLIM",grupo:"A"},
+      {rm:"25416",nome:"ANDERSON EMANUEL OLIVEIRA PRADO GODOI",grupo:"A"},
+      {rm:"25098",nome:"ANTHONY VICTOR DLUGAS PADILHA",grupo:"A"},
+      {rm:"25414",nome:"BRIAN LOPES MORAES",grupo:"A"},
+      {rm:"25451",nome:"DANIEL ASSAF RODRIGUES",grupo:"A"},
+      {rm:"25215",nome:"DAVIH CUNHA SANTOS",grupo:"A"},
+      {rm:"25124",nome:"DÉRIKY KAIKE FERRAZ DOS PASSOS",grupo:"A"},
+      {rm:"25353",nome:"EDILSON MICAEL SANTOS CAMARGO",grupo:"A"},
+      {rm:"25068",nome:"EDMILSON ALESSANDRO CUSTODIO OLIVEIRA",grupo:"A"},
+      {rm:"24147",nome:"EVERTON MATHEUS DIAS SOARES",grupo:"A"},
+      {rm:"25331",nome:"FABIO HENRICK ALMEIDA SANTOS DE PONTES",grupo:"A"},
+      {rm:"24051",nome:"GABRIEL CAMPOS DE MORAES",grupo:"A"},
+      {rm:"25212",nome:"GABRIEL HENRIQUE AFONSO SANTOS BARROS DE ALMEIDA",grupo:"A"},
+      {rm:"25221",nome:"GABRIEL SANTANA CORRÊA",grupo:"A"},
+      {rm:"25000",nome:"GABRIELLE CAMARGO DOS REIS OLIVEIRA",grupo:"A"},
+      {rm:"25386",nome:"GUILHERME DELGADO SOARES DE OLIVEIRA",grupo:"A"},
+      {rm:"25064",nome:"GUSTAVO APARECIDO MANCIO DE ALMEIDA",grupo:"A"},
+      {rm:"25018",nome:"HENRIQUE CAMARGO MATOS",grupo:"A"},
+      {rm:"25194",nome:"ISABELE VITORIA RODRIGUES BUENO",grupo:"A"},
+      {rm:"25428",nome:"JEREMIAS DAVID CAMARGO MUZEL",grupo:"A"},
+      {rm:"25049",nome:"JULIA APARECIDA CAMPOS",grupo:"A"},
+      {rm:"25193",nome:"KATERINY YASMIN OLIVEIRA GOVEIA",grupo:"A"},
+      {rm:"25387",nome:"KAUÃ VITOR DUARTE DA SILVA",grupo:"A"},
+      {rm:"25048",nome:"KAYQUE DE OLIVEIRA TORRES",grupo:"A"},
+      {rm:"25449",nome:"LEANDRO HENRIQUE RIBEIRO SANTIAGO",grupo:"A"},
+      {rm:"25408",nome:"LENDON GABRIEL SOARES",grupo:"A"},
+      {rm:"25382",nome:"LUAN GABRIEL SILVA DE OLIVEIRA",grupo:"A"},
+      {rm:"25093",nome:"LUCAS PETERSON GONÇALVES RAMOS",grupo:"A"},
+      {rm:"24411",nome:"MATHEUS ANTONIO DOS SANTOS RUIVO",grupo:"A"},
+      {rm:"25199",nome:"MATHEUS SCATIZZI",grupo:"A"},
+      {rm:"25369",nome:"OTÁVIO RABELO DO AMARAL",grupo:"A"},
+      {rm:"25013",nome:"PEDRO BRASILIO OLIVEIRA DE BARROS",grupo:"A"},
+      {rm:"25140",nome:"REDI FERNANDO QUEIROZ DA CRUZ SILVA",grupo:"A"},
+      {rm:"25370",nome:"REYNALDO CESAR RODRIGUES MORAIS",grupo:"A"},
+      {rm:"25119",nome:"RHALF MARQUES DE OLIVEIRA",grupo:"A"},
+      {rm:"25283",nome:"VICTOR AZEVEDO CASSU FOGAÇA DE ALMEIDA",grupo:"A"},
+      {rm:"25102",nome:"VINICIUS ALEXANDRE DOS SANTOS GARCIA",grupo:"A"}
+    ]
+  },
+  "3senf": {
+    nome: "3º S ENF (Enfermagem)",
+    alunos: [
+      {rm:"23281",nome:"KEMILLEY VITORIA RODRIGUES BERLATO",grupo:"B"},
+      {rm:"23129",nome:"LAVINIA CRISTINE DA SILVA ENGUE",grupo:"B"},
+      {rm:"25560",nome:"LETICIA ROSA DO NASCIMENTO",grupo:"B"},
+      {rm:"18346",nome:"LIVIA CAROLINE DA COSTA",grupo:"B"},
+      {rm:"19118",nome:"LIVIA PERINA MENDES RAMOS",grupo:"B"},
+      {rm:"22494",nome:"LIZ MARA DOS SANTOS NUNES",grupo:"B"},
+      {rm:"25540",nome:"LUCIANE APARECIDA RODRIGUES DE LIMA",grupo:"B"},
+      {rm:"24520",nome:"MAIARA DE SOUZA TABORDA",grupo:"B"},
+      {rm:"22346",nome:"MARCO AURELIO KAULFUSS FILHO",grupo:"B"},
+      {rm:"11024",nome:"MARISA APARECIDA OLIVEIRA COSTA",grupo:"B"},
+      {rm:"21711",nome:"MAYARA MILENA DA SILVA MAIA",grupo:"B"},
+      {rm:"25567",nome:"MONIKE LORENA DA SILVA BARROS",grupo:"B"},
+      {rm:"25321",nome:"NATHALIA VITORIA CARVALHO MALIGESKY",grupo:"B"},
+      {rm:"25533",nome:"PEDRO OTAVIO RIBEIRO",grupo:"B"},
+      {rm:"26553",nome:"RAQUEL BATISTA DE PAULA",grupo:"B"},
+      {rm:"26511",nome:"REGIANE CRISTINE DE OLIVEIRA PEREIRA",grupo:"B"},
+      {rm:"25501",nome:"VANESSA OLIVEIRA RAMOS DA SILVA",grupo:"B"},
+      {rm:"25511",nome:"VITORIA TRINDADE DOS SANTOS",grupo:"B"}
     ]
   }
 };
@@ -458,3 +528,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
+```
